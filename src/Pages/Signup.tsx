@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { Context } from "../Context/CategoryContext";
 
 export default function Signup() {
+  const { signup } = useContext(Context);
   const history = useHistory();
 
   const [user, setUser] = useState({
@@ -12,21 +14,31 @@ export default function Signup() {
     confPassword: "",
   });
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: any) => {
     setUser({ ...user, [e.target.name]: e.target.value });
     setMessage("");
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     if (user.password !== user.confPassword) {
       setMessage("Passwords do not match");
     } else {
-      console.log({ user });
-      history.push("/");
+      try {
+        setMessage("");
+        setLoading(true);
+        signup(user);
+        history.push("/");
+      } catch (error) {
+        console.log({ error });
+        setMessage("Failed to create an account");
+      }
     }
+
+    setLoading(false);
   };
 
   return (
@@ -91,11 +103,16 @@ export default function Signup() {
             required
           />
           <input
+            disabled={loading}
             className="rounded-md bg-brand-dark text-white p-2 cursor-pointer"
             type="submit"
             value="Sign up"
           />
         </form>
+        <p className="mt-5">
+          Already have an account?
+          <Link to="/login" className="text-brand-dark"> Login</Link>
+        </p>
       </div>
     </div>
   );

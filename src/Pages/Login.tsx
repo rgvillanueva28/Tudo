@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useHistory, Link } from "react-router-dom";
+import { Context } from "../Context/CategoryContext";
 
 export default function Login() {
+  const { login } = useContext(Context);
   const history = useHistory();
 
   const [user, setUser] = useState({
@@ -9,17 +11,24 @@ export default function Login() {
     password: "",
   });
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: any) => {
     setUser({ ...user, [e.target.name]: e.target.value });
     setMessage("");
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    console.log({ user });
-    history.push("/");
+    try {
+      setLoading(true);
+      setMessage("");
+      await login(user);
+      history.push("/");
+    } catch (error) {
+      setMessage("Failed to Log in");
+    }
   };
 
   return (
@@ -57,8 +66,13 @@ export default function Login() {
             className="rounded-md bg-brand-dark text-white p-2 cursor-pointer"
             type="submit"
             value="Sign up"
+            disabled={loading}
           />
         </form>
+        <p className="mt-5">
+          Does not yet have an account?
+          <Link to="/signup" className="text-brand-dark"> Sign up</Link>
+        </p>
       </div>
     </div>
   );

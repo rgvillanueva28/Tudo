@@ -2,12 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Header from "./Components/Header";
-import Footer from "./Components/Footer";
-
 
 import Dashboard from "./Pages/Dashboard";
 import Signup from "./Pages/Signup";
 import Login from "./Pages/Login";
+
+import PrivateRoute from "./HOCs/PrivateRoute";
+import AuthenticatedRoute from "./HOCs/AuthenticatedRoute";
 
 function App() {
   return (
@@ -22,9 +23,9 @@ function App() {
             }}
             className="flex flex-1"
           >
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={Signup} />
-            <Route exact path="/" component={Dashboard} />
+            <AuthenticatedRoute exact path="/login" component={Login} />
+            <AuthenticatedRoute exact path="/signup" component={Signup} />
+            <PrivateRoute exact path="/" component={Dashboard} />
           </div>
           {/* <Footer /> */}
         </div>

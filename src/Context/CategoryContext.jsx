@@ -1,19 +1,53 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { auth } from "../firebase";
 
 export const Context = createContext();
 
 export default ({ children }) => {
-    const [currentCategory, setCurrentCategory] = useState("todo")
+  const [currentCategory, setCurrentCategory] = useState("todo");
+  const [currentUser, setCurrentUser] = useState();
+  const [loading, setLoading] = useState(true);
 
-   const value = {
-        currentCategory,
-        setCurrentCategory
-    }
+  function signup({ email, password, firstName, lastName }) {
+    return auth.createUserWithEmailAndPassword(email, password).then((data) => {
+      const currentUser = auth.currentUser;
+      const name = `${firstName} ${lastName}`;
+      currentUser.updateProfile({
+        displayName: name,
+      });
+    });
+  }
 
-    return (
-        <Context.Provider value={value}>
-            {children}
-        </Context.Provider>
-    )
-}
+  function login({ email, password }) {
+    return auth.signInWithEmailAndPassword(email, password);
+  }
+
+  function logout() {
+    return auth.signOut();
+  }
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log(user);
+      setCurrentUser(user);
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  const value = {
+    currentCategory,
+    setCurrentCategory,
+    currentUser,
+    setCurrentUser,
+    signup,
+    login,
+    logout,
+  };
+
+  return (
+    <Context.Provider value={value}>{!loading && children}</Context.Provider>
+  );
+};

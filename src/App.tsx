@@ -15,7 +15,7 @@ function App() {
           <div style={{ paddingTop: "56px", paddingBottom: "56px" }}>
             <Route exact path="/" component={Dashboard} />
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </Switch>
     </Router>

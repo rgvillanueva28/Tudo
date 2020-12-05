@@ -14,7 +14,7 @@ function App() {
     <Router>
       <Switch>
         <div className="min-h-screen relative flex flex-col">
-          {/* <Header /> */}
+          <Header />
           <div
             style={{
               paddingTop: "56px",

@@ -6,6 +6,15 @@ export const Context = createContext();
 
 export default ({ children }) => {
   const [currentCategory, setCurrentCategory] = useState("todo");
+  const [newTodo, setNewTodo] = useState({
+    title: "",
+    dateCreated: new Date(),
+    dateToDo: new Date(),
+    dateFinished: new Date(),
+    description: "",
+    category: "todo",
+  });
+
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -45,6 +54,8 @@ export default ({ children }) => {
     signup,
     login,
     logout,
+    newTodo,
+    setNewTodo,
   };
 
   return (

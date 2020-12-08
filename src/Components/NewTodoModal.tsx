@@ -1,18 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
+import { Context } from "../Context/CategoryContext";
 
 import FormInput from "./FormInput";
 import FormDatePicker from "./FormDatePicker";
+import { clear } from "console";
 
 export default function NewTodoModal({ setShowNewTodoModal }: any) {
-  const [newTodo, setNewTodo] = useState({
-    title: "",
-    dateCreated: new Date(),
-    dateToDo: new Date(),
-    dateFinished: new Date(),
-    description: "",
-    category: "todo",
-  });
+  const { newTodo, setNewTodo } = useContext(Context);
 
   const handleChange = (e: any) => {
     setNewTodo({
@@ -20,6 +15,17 @@ export default function NewTodoModal({ setShowNewTodoModal }: any) {
       [e.target.name]: e.target.value,
     });
     console.log(newTodo);
+  };
+
+  const clearNewTodo = () => {
+    setNewTodo({
+      title: "",
+      dateCreated: new Date(),
+      dateToDo: new Date(),
+      dateFinished: new Date(),
+      description: "",
+      category: "todo",
+    });
   };
 
   const handleSubmit = (e: any) => {
@@ -31,6 +37,7 @@ export default function NewTodoModal({ setShowNewTodoModal }: any) {
     });
 
     console.log(newTodo);
+    clearNewTodo();
   };
 
   return (
@@ -92,6 +99,13 @@ export default function NewTodoModal({ setShowNewTodoModal }: any) {
               type="submit"
               className="transition duration-200 mt-5 p-2 w-full rounded bg-brand-main text-white cursor-pointer hover:bg-brand-dark"
             />
+            <button
+              type="button"
+              className="transition duration-200 mt-5 p-2 w-full rounded bg-danger text-white cursor-pointer hover:bg-warning"
+              onClick={clearNewTodo}
+            >
+              Clear
+            </button>
           </form>
         </div>
       </div>

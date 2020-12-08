@@ -1,6 +1,5 @@
 import { useState } from "react";
-import useOnclickOutside from "react-cool-onclickoutside";
-import DatePicker from "react-datepicker";
+import { MdClose } from "react-icons/md";
 
 import FormInput from "./FormInput";
 import FormDatePicker from "./FormDatePicker";
@@ -8,15 +7,11 @@ import FormDatePicker from "./FormDatePicker";
 export default function NewTodoModal({ setShowNewTodoModal }: any) {
   const [newTodo, setNewTodo] = useState({
     title: "",
-    dateCreated: "",
+    dateCreated: new Date(),
     dateToDo: new Date(),
     dateFinished: new Date(),
     description: "",
-    category: "",
-  });
-
-  const setNewTodoRef = useOnclickOutside(() => {
-    setShowNewTodoModal(false);
+    category: "todo",
   });
 
   const handleChange = (e: any) => {
@@ -27,24 +22,39 @@ export default function NewTodoModal({ setShowNewTodoModal }: any) {
     console.log(newTodo);
   };
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    setNewTodo({
+      ...newTodo,
+      dateCreated: new Date(),
+    });
+
+    console.log(newTodo);
+  };
+
   return (
     <>
       <div
-        className="absolute top-0 w-full h-screen flex justify-center z-0"
+        className="transition-all absolute top-0 w-full h-screen flex justify-center z-0"
         style={{ backgroundColor: "rgba(0,0,0,0.75)" }}
       >
-        <div
-          ref={setNewTodoRef}
-          className="mx-auto my-auto text-center p-5 lg:p-10 rounded shadow-lg bg-white w-11/12 lg:w-1/2"
-        >
-          <form className="flex flex-col text-left">
-            <h1 className="text-xl">Add new Todo</h1>
+        <div className="relative mx-auto my-auto text-center p-5 lg:p-10 rounded shadow-lg bg-white w-11/12 lg:w-1/2">
+          <button
+            onClick={() => setShowNewTodoModal(false)}
+            className="absolute top-5 right-5 bg-danger text-white rounded-full p-1"
+          >
+            <MdClose size={24} />
+          </button>
+          <form className="flex flex-col text-left" onSubmit={handleSubmit}>
+            <h1 className="text-xl mb-5 font-bold text-center">Add new Todo</h1>
             <FormInput
               htmlFor="title"
               title="Title"
               type="text"
               placeholder="Todo 1"
               name="title"
+              required
               value={newTodo.title}
               onChange={handleChange}
             />
@@ -52,12 +62,15 @@ export default function NewTodoModal({ setShowNewTodoModal }: any) {
               htmlFor="description"
               title="Description"
               type="text"
+              required
               placeholder="Lorem Ipsum Dolor sit amet"
               name="description"
               value={newTodo.description}
               onChange={handleChange}
             />
-            <label htmlFor="dateTodo">Date to do</label>
+            <label htmlFor="dateTodo" className="font-bold">
+              Date to do
+            </label>
             <FormDatePicker
               name="dateTodo"
               selected={newTodo.dateToDo}
@@ -65,7 +78,9 @@ export default function NewTodoModal({ setShowNewTodoModal }: any) {
                 setNewTodo({ ...newTodo, dateToDo: date })
               }
             />
-            <label htmlFor="Date">Due date</label>
+            <label htmlFor="Date" className="font-bold">
+              Due date
+            </label>
             <FormDatePicker
               name="dateFinished"
               selected={newTodo.dateFinished}
@@ -73,7 +88,10 @@ export default function NewTodoModal({ setShowNewTodoModal }: any) {
                 setNewTodo({ ...newTodo, dateFinished: date })
               }
             />
-            <input type="submit" className="mt-5 p-2 w-full rounded bg-brand-main text-white" />
+            <input
+              type="submit"
+              className="transition duration-200 mt-5 p-2 w-full rounded bg-brand-main text-white cursor-pointer hover:bg-brand-dark"
+            />
           </form>
         </div>
       </div>

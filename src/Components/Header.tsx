@@ -16,7 +16,7 @@ export default function Header() {
             Tudo
           </span>
         </div>
-        <div className="my-auto">
+        <div className="my-auto flex flex-row">
           <MdSearch size={24} style={{ margin: "16px" }} />
         </div>
       </nav>

@@ -1,35 +1,29 @@
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { Context } from "../Context/CategoryContext";
+import useOnclickOutside from "react-cool-onclickoutside";
 
 import FormInput from "./FormInput";
 import FormDatePicker from "./FormDatePicker";
-import { clear } from "console";
 
 export default function NewTodoModal({ setShowNewTodoModal }: any) {
-  const { newTodo, setNewTodo } = useContext(Context);
+  const { newTodo, setNewTodo, clearNewTodo, addTodo } = useContext(Context);
+  const ref = useOnclickOutside(() => {
+    setShowNewTodoModal(false);
+  });
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: any) => {
     setNewTodo({
       ...newTodo,
       [e.target.name]: e.target.value,
     });
-    console.log(newTodo);
   };
 
-  const clearNewTodo = () => {
-    setNewTodo({
-      title: "",
-      dateCreated: new Date(),
-      dateToDo: new Date(),
-      dateFinished: new Date(),
-      description: "",
-      category: "todo",
-    });
-  };
-
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
 
     setNewTodo({
       ...newTodo,
@@ -37,19 +31,32 @@ export default function NewTodoModal({ setShowNewTodoModal }: any) {
     });
 
     console.log(newTodo);
+    await addTodo(newTodo)
+      .then((data: any) => {
+        console.log(data);
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+    setLoading(false);
     clearNewTodo();
+    setShowNewTodoModal(false);
   };
 
   return (
     <>
       <div
-        className="transition-all absolute top-0 w-full h-screen flex justify-center z-0"
+        className="absolute top-0 w-full h-screen flex justify-center z-0"
         style={{ backgroundColor: "rgba(0,0,0,0.75)" }}
       >
-        <div className="relative mx-auto my-auto text-center p-5 lg:p-10 rounded shadow-lg bg-white w-11/12 lg:w-1/2">
+        <div
+          ref={ref}
+          className="relative mx-auto my-auto text-center p-5 lg:p-10 rounded shadow-lg bg-white w-11/12 lg:w-1/2"
+        >
           <button
+            disabled={loading}
             onClick={() => setShowNewTodoModal(false)}
-            className="absolute top-5 right-5 bg-danger text-white rounded-full p-1"
+            className="transition duration-200 absolute top-5 right-5 bg-danger hover:bg-red-400 text-white rounded-full p-1"
           >
             <MdClose size={24} />
           </button>
@@ -96,12 +103,14 @@ export default function NewTodoModal({ setShowNewTodoModal }: any) {
               }
             />
             <input
+              disabled={loading}
               type="submit"
-              className="transition duration-200 mt-5 p-2 w-full rounded bg-brand-main text-white cursor-pointer hover:bg-brand-dark"
+              className="transition duration-200 mt-5 p-2 w-full rounded bg-brand-main text-white cursor-pointer hover:bg-blue-300"
             />
             <button
+              disabled={loading}
               type="button"
-              className="transition duration-200 mt-5 p-2 w-full rounded bg-danger text-white cursor-pointer hover:bg-warning"
+              className="transition duration-200 mt-5 p-2 w-full rounded bg-danger text-white cursor-pointer hover:bg-red-400"
               onClick={clearNewTodo}
             >
               Clear

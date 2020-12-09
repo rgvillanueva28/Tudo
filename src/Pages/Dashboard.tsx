@@ -9,7 +9,7 @@ import Footer from "../Components/Footer";
 import NewTodoModal from "../Components/NewTodoModal";
 
 export default function Dashboard() {
-  const { currentCategory } = useContext(Context);
+  const { currentCategory, getTodos, todoItems } = useContext(Context);
   const [showNewTodoModal, setShowNewTodoModal] = useState(false);
 
   const [isLarge, setIsLarge] = useState(
@@ -17,14 +17,17 @@ export default function Dashboard() {
   );
 
   useEffect(() => {
+    getTodos();
     global.addEventListener("resize", () => {
       global.innerWidth >= 1024 ? setIsLarge(true) : setIsLarge(false);
     });
   }, [isLarge]);
-
+  
   return (
     <>
-      {showNewTodoModal && <NewTodoModal setShowNewTodoModal={setShowNewTodoModal}  />}
+      {showNewTodoModal && (
+        <NewTodoModal setShowNewTodoModal={setShowNewTodoModal} />
+      )}
       <div className="flex flex-col flex-1">
         <button
           className="text-white transition-all duration-200 flex flex-row rounded-lg bg-brand-main hover:bg-accent-dark px-3 py-2 mx-auto mt-5"
@@ -37,140 +40,58 @@ export default function Dashboard() {
           {!isLarge && currentCategory === "todo" && (
             <CatContainer>
               <h1 className="text-3xl">Todo</h1>
-              <TodoCard
-                title="Todo 1"
-                dateCreated={new Date()}
-                dateToDo={new Date()}
-                dateFinished={new Date()}
-                description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                category="todo"
-              />
-              <TodoCard
-                title="Todo 1"
-                dateCreated={new Date()}
-                dateToDo={new Date()}
-                dateFinished={new Date()}
-                description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                category="todo"
-              />
-              <TodoCard
-                title="Todo 1"
-                dateCreated={new Date()}
-                dateToDo={new Date()}
-                dateFinished={new Date()}
-                description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                category="todo"
-              />
+              {todoItems
+                .filter((todoItem: any) => todoItem.category === "todo")
+                .map((todoItem: any) => {
+                  return <TodoCard todoItem={todoItem} />;
+                })}
             </CatContainer>
           )}
           {!isLarge && currentCategory === "inProgress" && (
             <CatContainer>
               <h1 className="text-3xl">In progress</h1>
-              <TodoCard
-                title="Todo 1"
-                dateCreated={new Date()}
-                dateToDo={new Date()}
-                dateFinished={new Date()}
-                description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                category="inProgress"
-              />
-              <TodoCard
-                title="Todo 1"
-                dateCreated={new Date()}
-                dateToDo={new Date()}
-                dateFinished={new Date()}
-                description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                category="inProgress"
-              />
+              {todoItems
+                .filter((todoItem: any) => todoItem.category === "inProgress")
+                .map((todoItem: any) => {
+                  return <TodoCard todoItem={todoItem} />;
+                })}
             </CatContainer>
           )}
           {!isLarge && currentCategory === "done" && (
             <CatContainer>
               <h1 className="text-3xl">Done</h1>
-              <TodoCard
-                title="Todo 1"
-                dateCreated={new Date()}
-                dateToDo={new Date()}
-                dateFinished={new Date()}
-                description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                category="done"
-              />
-              <TodoCard
-                title="Todo 1"
-                dateCreated={new Date()}
-                dateToDo={new Date()}
-                dateFinished={new Date()}
-                description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                category="done"
-              />
+              {todoItems
+                .filter((todoItem: any) => todoItem.category === "done")
+                .map((todoItem: any) => {
+                  return <TodoCard todoItem={todoItem} />;
+                })}
             </CatContainer>
           )}
           {isLarge && (
             <>
               <CatContainer>
                 <h1 className="text-3xl">Todo</h1>
-                <TodoCard
-                  title="Todo 1"
-                  dateCreated={new Date()}
-                  dateToDo={new Date()}
-                  dateFinished={new Date()}
-                  description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                  category="todo"
-                />
-                <TodoCard
-                  title="Todo 1"
-                  dateCreated={new Date()}
-                  dateToDo={new Date()}
-                  dateFinished={new Date()}
-                  description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                  category="todo"
-                />
-                <TodoCard
-                  title="Todo 1"
-                  dateCreated={new Date()}
-                  dateToDo={new Date()}
-                  dateFinished={new Date()}
-                  description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                  category="todo"
-                />
+                {todoItems
+                  .filter((todoItem: any) => todoItem.category === "todo")
+                  .map((todoItem: any) => {
+                    return <TodoCard todoItem={todoItem} />;
+                  })}
               </CatContainer>
               <CatContainer>
                 <h1 className="text-3xl">In progress</h1>
-                <TodoCard
-                  title="Todo 1"
-                  dateCreated={new Date()}
-                  dateToDo={new Date()}
-                  dateFinished={new Date()}
-                  description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                  category="inProgress"
-                />
-                <TodoCard
-                  title="Todo 1"
-                  dateCreated={new Date()}
-                  dateToDo={new Date()}
-                  dateFinished={new Date()}
-                  description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                  category="inProgress"
-                />
+                {todoItems
+                  .filter((todoItem: any) => todoItem.category === "inProgress")
+                  .map((todoItem: any) => {
+                    return <TodoCard todoItem={todoItem} />;
+                  })}
               </CatContainer>
               <CatContainer>
                 <h1 className="text-3xl">Done</h1>
-                <TodoCard
-                  title="Todo 1"
-                  dateCreated={new Date()}
-                  dateToDo={new Date()}
-                  dateFinished={new Date()}
-                  description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                  category="done"
-                />
-                <TodoCard
-                  title="Todo 1"
-                  dateCreated={new Date()}
-                  dateToDo={new Date()}
-                  dateFinished={new Date()}
-                  description="Lorem ipsum dolor sit amet tadadadada etc etc. Lorem ipsum dolor sit amet tadadadada etc etc."
-                  category="done"
-                />
+                {todoItems
+                  .filter((todoItem: any) => todoItem.category === "done")
+                  .map((todoItem: any) => {
+                    return <TodoCard todoItem={todoItem} />;
+                  })}
               </CatContainer>
             </>
           )}

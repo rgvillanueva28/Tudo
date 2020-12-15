@@ -41,8 +41,10 @@ export default function Dashboard() {
               <h1 className="text-3xl">Todo</h1>
               {todoItems
                 .filter((todoItem: any) => todoItem.category === "todo")
-                .map((todoItem: any) => {
-                  return <TodoCard todoItem={todoItem} />;
+                .map((thisTodoItem: any) => {
+                  return (
+                    <TodoCard todoItem={thisTodoItem} key={thisTodoItem.id} />
+                  );
                 })}
             </CatContainer>
           )}
@@ -51,8 +53,10 @@ export default function Dashboard() {
               <h1 className="text-3xl">In progress</h1>
               {todoItems
                 .filter((todoItem: any) => todoItem.category === "inProgress")
-                .map((todoItem: any) => {
-                  return <TodoCard todoItem={todoItem} />;
+                .map((thisTodoItem: any) => {
+                  return (
+                    <TodoCard todoItem={thisTodoItem} key={thisTodoItem.id} />
+                  );
                 })}
             </CatContainer>
           )}
@@ -61,8 +65,10 @@ export default function Dashboard() {
               <h1 className="text-3xl">Done</h1>
               {todoItems
                 .filter((todoItem: any) => todoItem.category === "done")
-                .map((todoItem: any) => {
-                  return <TodoCard todoItem={todoItem} />;
+                .map((thisTodoItem: any) => {
+                  return (
+                    <TodoCard todoItem={thisTodoItem} key={thisTodoItem.id} />
+                  );
                 })}
             </CatContainer>
           )}
@@ -72,24 +78,30 @@ export default function Dashboard() {
                 <h1 className="text-3xl">Todo</h1>
                 {todoItems
                   .filter((todoItem: any) => todoItem.category === "todo")
-                  .map((todoItem: any) => {
-                    return <TodoCard todoItem={todoItem} />;
+                  .map((thisTodoItem: any) => {
+                    return (
+                      <TodoCard todoItem={thisTodoItem} key={thisTodoItem.id} />
+                    );
                   })}
               </CatContainer>
               <CatContainer>
                 <h1 className="text-3xl">In progress</h1>
                 {todoItems
                   .filter((todoItem: any) => todoItem.category === "inProgress")
-                  .map((todoItem: any) => {
-                    return <TodoCard todoItem={todoItem} />;
+                  .map((thisTodoItem: any) => {
+                    return (
+                      <TodoCard todoItem={thisTodoItem} key={thisTodoItem.id} />
+                    );
                   })}
               </CatContainer>
               <CatContainer>
                 <h1 className="text-3xl">Done</h1>
                 {todoItems
                   .filter((todoItem: any) => todoItem.category === "done")
-                  .map((todoItem: any) => {
-                    return <TodoCard todoItem={todoItem} />;
+                  .map((thisTodoItem: any) => {
+                    return (
+                      <TodoCard todoItem={thisTodoItem} key={thisTodoItem.id} />
+                    );
                   })}
               </CatContainer>
             </>

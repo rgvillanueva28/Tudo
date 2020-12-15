@@ -90,6 +90,20 @@ export default ({ children }) => {
       });
   }
 
+  function deleteTodo(id) {
+    return db
+      .collection("todos")
+      .doc(id)
+      .delete()
+      .then(() => {
+        return "Todo successfully deleted.";
+      })
+      .catch((err) => {
+        console.log(err);
+        return "Error deleting todo.";
+      });
+  }
+
   function getTodos() {
     return currentUser
       ? db
@@ -126,6 +140,7 @@ export default ({ children }) => {
     todoItems,
     getTodos,
     updateTodo,
+    deleteTodo,
   };
 
   return (

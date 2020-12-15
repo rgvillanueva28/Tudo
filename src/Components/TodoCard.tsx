@@ -4,10 +4,13 @@ import {
   MdKeyboardArrowRight,
   MdKeyboardArrowLeft,
   MdClear,
+  MdModeEdit,
 } from "react-icons/md";
 import { Context } from "../Context/CategoryContext";
 
 import DeleteTodoModal from "../Components/DeleteTodoModal";
+import EditTodoModal from "../Components/EditTodoModal";
+
 interface toDoCardProps {
   todoItem: any;
 }
@@ -16,6 +19,7 @@ export default function TodoCard({ todoItem }: toDoCardProps) {
   const { updateTodo } = useContext(Context);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const handleCatClick = async (e: any) => {
     let category = "";
@@ -83,42 +87,46 @@ export default function TodoCard({ todoItem }: toDoCardProps) {
           id={todoItem.id}
         />
       )}
+      {showEditModal && (
+        <EditTodoModal
+          setShowEditModal={setShowEditModal}
+          todoItem={todoItem}
+        />
+      )}
       <div
         className={
           "transition-all flex flex-col w-100 my-2 rounded-lg text-left p-3 text-white " +
           styles.bgColor
         }
       >
-        <div className="flex flex-row justify-around">
-          <h2 className="text-xl font-bold text-left w-full">
-            {todoItem.title}
-          </h2>
-          <div className="flex flex-row">
-            <button
-              className="bg-danger rounded-lg w-20 mx-2"
-              onClick={() => setShowDeleteModal(true)}
-            >
-              <MdClear className="mx-auto" size={24} />
-            </button>
-            <button
-              id="back"
-              className={
-                "bg-brand-main rounded-lg w-20 mx-2 " + styles.backBtnColor
-              }
-              onClick={handleCatClick}
-            >
-              <MdKeyboardArrowLeft className="mx-auto" size={24} />
-            </button>
-            <button
-              id="next"
-              className={
-                "bg-brand-main rounded-lg w-20 mx-2 " + styles.nextBtnColor
-              }
-              onClick={handleCatClick}
-            >
-              <MdKeyboardArrowRight className="mx-auto" size={24} />
-            </button>
-          </div>
+        <h2 className="text-xl font-bold text-left w-full">{todoItem.title}</h2>
+        <div className="flex flex-row space-x-5 h-8">
+          <button
+            className="bg-green-400 rounded-lg w-20 "
+            onClick={() => setShowEditModal(true)}
+          >
+            <MdModeEdit className="mx-auto" size={24} />
+          </button>
+          <button
+            className="bg-danger rounded-lg w-20 "
+            onClick={() => setShowDeleteModal(true)}
+          >
+            <MdClear className="mx-auto" size={24} />
+          </button>
+          <button
+            id="back"
+            className={"bg-brand-main rounded-lg w-20  " + styles.backBtnColor}
+            onClick={handleCatClick}
+          >
+            <MdKeyboardArrowLeft className="mx-auto" size={24} />
+          </button>
+          <button
+            id="next"
+            className={"bg-brand-main rounded-lg w-20  " + styles.nextBtnColor}
+            onClick={handleCatClick}
+          >
+            <MdKeyboardArrowRight className="mx-auto" size={24} />
+          </button>
         </div>
         <div
           className={"flex flex-col font-semibold text-sm " + styles.dateColor}

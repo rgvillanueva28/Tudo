@@ -4,7 +4,6 @@ import { Context } from "../Context/CategoryContext";
 
 import CatContainer from "../Components/CategoryContainer";
 import TodoCard from "../Components/TodoCard";
-import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import NewTodoModal from "../Components/NewTodoModal";
 
@@ -21,8 +20,8 @@ export default function Dashboard() {
     global.addEventListener("resize", () => {
       global.innerWidth >= 1024 ? setIsLarge(true) : setIsLarge(false);
     });
-  }, [isLarge]);
-  
+  }, []);
+
   return (
     <>
       {showNewTodoModal && (

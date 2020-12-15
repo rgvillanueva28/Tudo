@@ -14,43 +14,30 @@ interface toDoCardProps {
 export default function TodoCard({ todoItem }: toDoCardProps) {
   const { updateTodo } = useContext(Context);
 
-  const [thisTodoItem, setThisTodoItem] = useState({
-    ...todoItem,
-    dateCreated: todoItem.dateCreated.toDate(),
-    dateToDo: todoItem.dateToDo.toDate(),
-    dateFinished: todoItem.dateFinished.toDate(),
-  });
-
-  const handleCatClick = (e: any) => {
+  const handleCatClick = async (e: any) => {
     let category = "";
 
     if (e.currentTarget.id === "next") {
       category =
-        todoItem.category === "todo"
+        (await todoItem.category) === "todo"
           ? "inProgress"
           : todoItem.category === "inProgress"
           ? "done"
           : "";
     } else {
       category =
-        todoItem.category === "done"
+        (await todoItem.category) === "done"
           ? "inProgress"
           : todoItem.category === "inProgress"
           ? "todo"
           : "";
     }
 
-    console.log({ thisTodoItem, category });
+    console.log({ todoItem, category });
 
-    updateTodo(todoItem.id, { ...todoItem, category: category })
+    await updateTodo(todoItem.id, { ...todoItem, category: category })
       .then(() => {
         console.log("Updated");
-        setThisTodoItem({
-          ...todoItem,
-          dateCreated: todoItem.dateCreated.toDate(),
-          dateToDo: todoItem.dateToDo.toDate(),
-          dateFinished: todoItem.dateFinished.toDate(),
-        });
       })
       .catch((err: any) => {
         console.log(err);
@@ -87,7 +74,7 @@ export default function TodoCard({ todoItem }: toDoCardProps) {
   return (
     <div
       className={
-        "flex flex-col w-100 my-2 rounded-lg text-left p-3 text-white " +
+        "transition-all flex flex-col w-100 my-2 rounded-lg text-left p-3 text-white " +
         styles.bgColor
       }
     >
@@ -120,13 +107,13 @@ export default function TodoCard({ todoItem }: toDoCardProps) {
       <div
         className={"flex flex-col font-semibold text-sm " + styles.dateColor}
       >
-        <p>{`Created on ${moment(thisTodoItem.dateCreated).format(
+        <p>{`Created on ${moment(todoItem.dateCreated.toDate()).format(
           "ddd, MMM DD YYYY hh:mm A"
         )}`}</p>
-        <p>{`To finish on ${moment(thisTodoItem.dateToDo).format(
+        <p>{`To finish on ${moment(todoItem.dateToDo.toDate()).format(
           "ddd, MMM DD YYYY hh:mm A"
         )}`}</p>
-        <p>{`Due date on ${moment(thisTodoItem.dateFinished).format(
+        <p>{`Due date on ${moment(todoItem.dateFinished.toDate()).format(
           "ddd, MMM DD YYYY hh:mm A"
         )}`}</p>
       </div>

@@ -1,6 +1,10 @@
 import React, { useContext, useState } from "react";
 import moment from "moment";
-import { MdPlayArrow, MdClear } from "react-icons/md";
+import {
+  MdKeyboardArrowRight,
+  MdKeyboardArrowLeft,
+  MdClear,
+} from "react-icons/md";
 import { Context } from "../Context/CategoryContext";
 
 interface toDoCardProps {
@@ -18,7 +22,23 @@ export default function TodoCard({ todoItem }: toDoCardProps) {
   });
 
   const handleCatClick = (e: any) => {
-    const category = todoItem.category === "todo" ? "inProgress" : "done";
+    let category = "";
+
+    if (e.currentTarget.id === "next") {
+      category =
+        todoItem.category === "todo"
+          ? "inProgress"
+          : todoItem.category === "inProgress"
+          ? "done"
+          : "";
+    } else {
+      category =
+        todoItem.category === "done"
+          ? "inProgress"
+          : todoItem.category === "inProgress"
+          ? "todo"
+          : "";
+    }
 
     console.log({ thisTodoItem, category });
 
@@ -35,8 +55,6 @@ export default function TodoCard({ todoItem }: toDoCardProps) {
       .catch((err: any) => {
         console.log(err);
       });
-
-    console.log(todoItem);
   };
 
   const styles = {
@@ -58,6 +76,12 @@ export default function TodoCard({ todoItem }: toDoCardProps) {
         : todoItem.category === "inProgress"
         ? "bg-success"
         : "hidden",
+    backBtnColor:
+      todoItem.category === "todo"
+        ? "hidden"
+        : todoItem.category === "inProgress"
+        ? "bg-brand-dark"
+        : "bg-brand-main",
   };
 
   return (
@@ -74,12 +98,22 @@ export default function TodoCard({ todoItem }: toDoCardProps) {
             <MdClear className="mx-auto" size={24} />
           </button>
           <button
+            id="back"
+            className={
+              "bg-brand-main rounded-lg w-20 mx-2 " + styles.backBtnColor
+            }
             onClick={handleCatClick}
+          >
+            <MdKeyboardArrowLeft className="mx-auto" size={24} />
+          </button>
+          <button
+            id="next"
             className={
               "bg-brand-main rounded-lg w-20 mx-2 " + styles.nextBtnColor
             }
+            onClick={handleCatClick}
           >
-            <MdPlayArrow className="mx-auto" size={24} />
+            <MdKeyboardArrowRight className="mx-auto" size={24} />
           </button>
         </div>
       </div>

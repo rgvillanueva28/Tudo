@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
-import moment from "moment";
 import {
   MdKeyboardArrowRight,
   MdKeyboardArrowLeft,
   MdClear,
   MdModeEdit,
 } from "react-icons/md";
+import { DateTime } from "luxon";
 import { Context } from "../Context/CategoryContext";
 
 import DeleteTodoModal from "../Components/DeleteTodoModal";
@@ -131,15 +131,15 @@ export default function TodoCard({ todoItem }: toDoCardProps) {
         <div
           className={"flex flex-col font-semibold text-sm " + styles.dateColor}
         >
-          <p>{`Created on ${moment(todoItem.dateCreated.toDate()).format(
-            "ddd, MMM DD YYYY hh:mm A"
-          )}`}</p>
-          <p>{`To finish on ${moment(todoItem.dateToDo.toDate()).format(
-            "ddd, MMM DD YYYY hh:mm A"
-          )}`}</p>
-          <p>{`Due date on ${moment(todoItem.dateFinished.toDate()).format(
-            "ddd, MMM DD YYYY hh:mm A"
-          )}`}</p>
+          <p>{`Created on ${DateTime.fromSeconds(
+            todoItem.dateCreated.seconds
+          ).toFormat("EEE, LLL dd kkkk hh:mm a")}`}</p>
+          <p>{`To finish on ${DateTime.fromSeconds(
+            todoItem.dateToDo.seconds
+          ).toFormat("EEE, LLL dd kkkk hh:mm a")}`}</p>
+          <p>{`Due date on ${DateTime.fromSeconds(
+            todoItem.dateFinished.seconds
+          ).toFormat("EEE, LLL dd kkkk hh:mm a")}`}</p>
         </div>
         <p className="text-base text-justify">{todoItem.description}</p>
       </div>

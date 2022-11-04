@@ -2,6 +2,22 @@
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
 import { db } from "../firebase";
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import {
+  addDoc,
+  deleteDoc,
+  getDocs,
+  updateDoc,
+  collection,
+  doc,
+  where,
+  onSnapshot,
+  query,
+} from "firebase/firestore";
 
 export const Context = createContext();
 
@@ -20,8 +36,7 @@ export default ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   function signup({ email, password, firstName, lastName }) {
-    return auth
-      .createUserWithEmailAndPassword(email, password)
+    return createUserWithEmailAndPassword(auth, email, password)
       .then((data) => {
         const currentUser = auth.currentUser;
         const name = `${firstName} ${lastName}`;
@@ -39,18 +54,17 @@ export default ({ children }) => {
   }
 
   function login({ email, password }) {
-    return auth
-      .signInWithEmailAndPassword(email, password)
-      .catch((err) => console.log(err));
+    return signInWithEmailAndPassword(auth, email, password).catch((err) =>
+      console.log(err)
+    );
   }
 
   function logout() {
-    return auth.signOut().catch((err) => console.log(err));
+    return signOut(auth).catch((err) => console.log(err));
   }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      console.log(user);
       setCurrentUser(user);
       setLoading(false);
     });
@@ -69,18 +83,16 @@ export default ({ children }) => {
     });
   }
 
-  function addTodo({ title, dateToDo, dateFinished, description }) {
-    return db
-      .collection("todos")
-      .add({
-        uid: currentUser.uid,
-        title,
-        description,
-        category: "todo",
-        dateToDo,
-        dateFinished,
-        dateCreated: new Date(),
-      })
+  async function addTodo({ title, dateToDo, dateFinished, description }) {
+    return await addDoc(collection(db, "todos"), {
+      uid: currentUser.uid,
+      title,
+      description,
+      category: "todo",
+      dateToDo,
+      dateFinished,
+      dateCreated: new Date(),
+    })
       .then(() => {
         return "Todo successfully added.";
       })
@@ -90,11 +102,8 @@ export default ({ children }) => {
       });
   }
 
-  function deleteTodo(id) {
-    return db
-      .collection("todos")
-      .doc(id)
-      .delete()
+  async function deleteTodo(id) {
+    return await deleteDoc(doc(db, "todos", id))
       .then(() => {
         return "Todo successfully deleted.";
       })
@@ -104,25 +113,25 @@ export default ({ children }) => {
       });
   }
 
-  function getTodos() {
-    return currentUser
-      ? db
-          .collection("todos")
-          .where("uid", "==", currentUser.uid)
-          .onSnapshot((snapshot) => {
-            setTodoItems(
-              snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-              }))
-            );
-            return "Todos Successfully fetched.";
-          })
+  async function getTodos() {
+    const q = currentUser
+      ? query(collection(db, "todos"), where("uid", "==", currentUser.uid))
+      : null;
+    return q
+      ? onSnapshot(q, (snapshot) => {
+          setTodoItems(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }))
+          );
+          return "Todos Successfully fetched.";
+        })
       : "No user found";
   }
 
-  function updateTodo(id, updatedTodo) {
-    return db.collection("todos").doc(id).update(updatedTodo);
+  async function updateTodo(id, updatedTodo) {
+    return await updateDoc(doc(db, "todos", id), updatedTodo);
   }
 
   const value = {

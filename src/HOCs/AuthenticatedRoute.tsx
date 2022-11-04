@@ -1,23 +1,11 @@
 import { useContext } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 import { Context } from "../Context/CategoryContext";
 
-function AuthenticatedRoute({ component: Component, ...rest }: any) {
+function AuthenticatedRoute({ component: Component }: any) {
   const { currentUser } = useContext(Context);
 
-  return (
-    <Route
-      {...rest}
-      render={(props) => {
-        if (currentUser) {
-          return (
-            <Redirect to={{ pathname: "/", state: { from: props.location } }} />
-          );
-        }
-        return <Component {...props} />;
-      }}
-    />
-  );
+  return currentUser ? <Navigate to={{ pathname: "/" }} /> : <Component />;
 }
 
 export default AuthenticatedRoute;

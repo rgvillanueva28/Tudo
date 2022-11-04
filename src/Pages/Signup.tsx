@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../Context/CategoryContext";
 
 export default function Signup() {
   const { signup } = useContext(Context);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     firstName: "",
@@ -31,7 +31,7 @@ export default function Signup() {
         setMessage("");
         setLoading(true);
         signup(user);
-        history.push("/");
+        navigate("/");
       } catch (error) {
         console.log({ error });
         setMessage("Failed to create an account");
@@ -111,7 +111,10 @@ export default function Signup() {
         </form>
         <p className="mt-5">
           Already have an account?
-          <Link to="/login" className="text-brand-dark"> Login</Link>
+          <Link to="/login" className="text-brand-dark">
+            {" "}
+            Login
+          </Link>
         </p>
       </div>
     </div>

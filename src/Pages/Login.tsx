@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Context } from "../Context/CategoryContext";
 
 export default function Login() {
   const { login } = useContext(Context);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState({
     email: "",
@@ -25,8 +25,9 @@ export default function Login() {
       setLoading(true);
       setMessage("");
       await login(user);
-      history.push("/");
+      navigate("/");
     } catch (error) {
+      console.error(error);
       setMessage("Failed to Log in");
     }
   };
@@ -71,7 +72,10 @@ export default function Login() {
         </form>
         <p className="mt-5">
           Does not yet have an account?
-          <Link to="/signup" className="text-brand-dark"> Sign up</Link>
+          <Link to="/signup" className="text-brand-dark">
+            {" "}
+            Sign up
+          </Link>
         </p>
       </div>
     </div>

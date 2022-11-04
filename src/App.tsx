@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Header from "./Components/Header";
 
@@ -13,23 +13,29 @@ import AuthenticatedRoute from "./HOCs/AuthenticatedRoute";
 function App() {
   return (
     <Router>
-      <Switch>
-        <div className="min-h-screen relative flex flex-col">
-          <Header />
-          <div
-            style={{
-              paddingTop: "56px",
-              paddingBottom: "56px",
-            }}
-            className="flex flex-1"
-          >
-            <AuthenticatedRoute exact path="/login" component={Login} />
-            <AuthenticatedRoute exact path="/signup" component={Signup} />
-            <PrivateRoute exact path="/" component={Dashboard} />
-          </div>
-          {/* <Footer /> */}
+      <div className="min-h-screen relative flex flex-col">
+        <Header />
+        <div
+          style={{
+            paddingTop: "56px",
+            paddingBottom: "56px",
+          }}
+          className="flex flex-1"
+        >
+          <Routes>
+            <Route
+              path="/login"
+              element={<AuthenticatedRoute component={Login} />}
+            />
+            <Route
+              path="/signup"
+              element={<AuthenticatedRoute component={Signup} />}
+            />
+            <Route path="/" element={<PrivateRoute component={Dashboard} />} />
+          </Routes>
         </div>
-      </Switch>
+        {/* <Footer /> */}
+      </div>
     </Router>
   );
 }

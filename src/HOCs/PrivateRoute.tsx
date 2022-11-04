@@ -1,22 +1,11 @@
 import { useContext } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 import { Context } from "../Context/CategoryContext";
 
 function PrivateRoute({ component: Component, roles, ...rest }: any) {
   const { currentUser } = useContext(Context);
 
-  return (
-    <Route
-      {...rest}
-      render={(props) => {
-        return currentUser ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/login" />
-        );
-      }}
-    ></Route>
-  );
+  return currentUser ? <Component /> : <Navigate to="/login" />;
 }
 
 export default PrivateRoute;

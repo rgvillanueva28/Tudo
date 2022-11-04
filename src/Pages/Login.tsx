@@ -65,7 +65,7 @@ export default function Login() {
           <input
             className="rounded-md bg-brand-dark text-white p-2 cursor-pointer"
             type="submit"
-            value="Sign up"
+            value="Log in"
             disabled={loading}
           />
         </form>

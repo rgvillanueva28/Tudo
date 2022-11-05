@@ -8,7 +8,7 @@ import Footer from "../Components/Footer";
 import NewTodoModal from "../Components/NewTodoModal";
 
 export default function Dashboard() {
-  const { currentCategory, getTodos, todoItems, isDesktop, setIsDesktop } =
+  const { currentCategory, getTodos, todoItems, isDesktop } =
     useContext(AppContext);
   const [showNewTodoModal, setShowNewTodoModal] = useState(false);
 

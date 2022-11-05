@@ -4,12 +4,15 @@ import {
   MdKeyboardArrowLeft,
   MdClear,
   MdModeEdit,
+  MdAlarmAdd,
+  MdAlarmOn,
+  MdAlarm,
 } from "react-icons/md";
 import { DateTime } from "luxon";
-import { AppContext } from "../Context/AppContext";
 
 import DeleteTodoModal from "../Components/DeleteTodoModal";
 import EditTodoModal from "../Components/EditTodoModal";
+import { AppContext } from "../Context/AppContext";
 
 interface toDoCardProps {
   todoItem: any;
@@ -58,12 +61,6 @@ export default function TodoCard({ todoItem }: toDoCardProps) {
         : todoItem.category === "inProgress"
         ? "bg-brand-main"
         : "bg-success",
-    dateColor:
-      todoItem.category === "todo"
-        ? "text-warning"
-        : todoItem.category === "inProgress"
-        ? "text-brand-dark"
-        : "text-danger",
     nextBtnColor:
       todoItem.category === "todo"
         ? "bg-brand-main"
@@ -129,17 +126,26 @@ export default function TodoCard({ todoItem }: toDoCardProps) {
           </button>
         </div>
         <div
-          className={"flex flex-col font-semibold text-sm " + styles.dateColor}
+          className={"flex flex-col font-semibold text-sm text-gray-200"}
         >
-          <p>{`Created on ${DateTime.fromSeconds(
-            todoItem.dateCreated.seconds
-          ).toFormat("EEE, LLL dd kkkk hh:mm a")}`}</p>
-          <p>{`To finish on ${DateTime.fromSeconds(
-            todoItem.dateToDo.seconds
-          ).toFormat("EEE, LLL dd kkkk hh:mm a")}`}</p>
-          <p>{`Due date on ${DateTime.fromSeconds(
-            todoItem.dateFinished.seconds
-          ).toFormat("EEE, LLL dd kkkk hh:mm a")}`}</p>
+          <span className="flex flex-row items-center" title="Created on">
+            <MdAlarmAdd />
+            {DateTime.fromSeconds(todoItem.dateCreated.seconds).toFormat(
+              "EEE, LLL dd kkkk hh:mm a"
+            )}
+          </span>
+          <span className="flex flex-row items-center" title="To do on">
+            <MdAlarmOn />
+            {DateTime.fromSeconds(todoItem.dateToDo.seconds).toFormat(
+              "EEE, LLL dd kkkk hh:mm a"
+            )}
+          </span>
+          <span className="flex flex-row items-center" title="Due on">
+            <MdAlarm />
+            {DateTime.fromSeconds(todoItem.dateFinished.seconds).toFormat(
+              "EEE, LLL dd kkkk hh:mm a"
+            )}
+          </span>
         </div>
         <p className="text-base text-justify">{todoItem.description}</p>
       </div>

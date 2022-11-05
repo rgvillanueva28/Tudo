@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Context } from "../Context/CategoryContext";
+import { AuthContext } from "../Context/AuthContext";
 
 export default function Login() {
-  const { login } = useContext(Context);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [user, setUser] = useState({

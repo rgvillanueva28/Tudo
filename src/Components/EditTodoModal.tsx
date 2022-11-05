@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
-import { Context } from "../Context/CategoryContext";
+import { AppContext } from "../Context/AppContext";
 import useOnclickOutside from "react-cool-onclickoutside";
 
 import FormInput from "./FormInput";
 import FormDatePicker from "./FormDatePicker";
 
 export default function EditTodoModal({ setShowEditModal, todoItem }: any) {
-  const { clearNewTodo, updateTodo } = useContext(Context);
+  const { clearNewTodo, updateTodo } = useContext(AppContext);
   const [editTodo, setEditTodo] = useState({
     ...todoItem,
     dateToDo: todoItem.dateToDo.toDate(),

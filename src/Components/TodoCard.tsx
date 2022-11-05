@@ -6,7 +6,7 @@ import {
   MdModeEdit,
 } from "react-icons/md";
 import { DateTime } from "luxon";
-import { Context } from "../Context/CategoryContext";
+import { AppContext } from "../Context/AppContext";
 
 import DeleteTodoModal from "../Components/DeleteTodoModal";
 import EditTodoModal from "../Components/EditTodoModal";
@@ -16,7 +16,7 @@ interface toDoCardProps {
 }
 
 export default function TodoCard({ todoItem }: toDoCardProps) {
-  const { updateTodo } = useContext(Context);
+  const { updateTodo } = useContext(AppContext);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);

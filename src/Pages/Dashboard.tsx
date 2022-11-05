@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { MdAddCircleOutline } from "react-icons/md";
-import { Context } from "../Context/CategoryContext";
+import { AppContext } from "../Context/AppContext";
 
 import CatContainer from "../Components/CategoryContainer";
 import TodoCard from "../Components/TodoCard";
@@ -8,7 +8,7 @@ import Footer from "../Components/Footer";
 import NewTodoModal from "../Components/NewTodoModal";
 
 export default function Dashboard() {
-  const { currentCategory, getTodos, todoItems } = useContext(Context);
+  const { currentCategory, getTodos, todoItems } = useContext(AppContext);
   const [showNewTodoModal, setShowNewTodoModal] = useState(false);
 
   const [isLarge, setIsLarge] = useState(

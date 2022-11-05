@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
-import { Context } from "../Context/CategoryContext";
+import { AppContext } from "../Context/AppContext";
 import useOnclickOutside from "react-cool-onclickoutside";
 
 export default function DeleteTodoModal({
@@ -8,7 +8,7 @@ export default function DeleteTodoModal({
   title,
   id,
 }: any) {
-  const { deleteTodo } = useContext(Context);
+  const { deleteTodo } = useContext(AppContext);
   const ref = useOnclickOutside(() => {
     setShowDeleteModal(false);
   });

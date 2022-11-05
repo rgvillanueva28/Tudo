@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
-import { Context } from "../Context/CategoryContext";
+import { AppContext } from "../Context/AppContext";
 import useOnclickOutside from "react-cool-onclickoutside";
 
 import FormInput from "./FormInput";
 import FormDatePicker from "./FormDatePicker";
 
 export default function NewTodoModal({ setShowNewTodoModal }: any) {
-  const { newTodo, setNewTodo, clearNewTodo, addTodo } = useContext(Context);
+  const { newTodo, setNewTodo, clearNewTodo, addTodo } = useContext(AppContext);
   const ref = useOnclickOutside(() => {
     setShowNewTodoModal(false);
   });

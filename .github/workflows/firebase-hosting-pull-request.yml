@@ -6,7 +6,12 @@ name: Deploy to Firebase Hosting on PR
 
 env:
   CI: false
-
+  REACT_APP_apiKey: '${{ secrets.REACT_APP_apiKey }}'
+  REACT_APP_authDomain: '${{ secrets.REACT_APP_authDomain }}'
+  REACT_APP_projectId: '${{ secrets.REACT_APP_projectId }}'
+  REACT_APP_storageBucket: '${{ secrets.REACT_APP_storageBucket }}'
+  REACT_APP_messagingSenderId: '${{ secrets.REACT_APP_messagingSenderId }}'
+  REACT_APP_appId: '${{ secrets.REACT_APP_appId }}'
 
 jobs:
   build_and_preview:

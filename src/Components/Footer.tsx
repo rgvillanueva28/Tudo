@@ -1,10 +1,10 @@
 import { MdAssignment, MdSync, MdDone } from "react-icons/md";
 import FooterItem from "./FooterItem";
 import { useContext } from "react";
-import { Context } from "../Context/CategoryContext";
+import { AppContext } from "../Context/AppContext";
 
 export default function Footer() {
-  const { currentCategory, setCurrentCategory } = useContext(Context);
+  const { currentCategory, setCurrentCategory } = useContext(AppContext);
 
   return (
     <div className="fixed bottom-0 flex flex-row bg-brand-dark min-w-full">

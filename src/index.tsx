@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import Provider from "./Context/CategoryContext";
+import AuthProvider from "./Context/AuthContext";
+import AppProvider from "./Context/AppContext";
 import "./Styles/styles.css";
 import "react-datepicker/dist/react-datepicker.min.css";
 
@@ -10,9 +11,11 @@ import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 const root = createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
-    <Provider>
-      <App />
-    </Provider>
+    <AuthProvider>
+      <AppProvider>
+        <App />
+      </AppProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
 

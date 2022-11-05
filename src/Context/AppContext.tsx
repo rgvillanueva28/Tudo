@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "../firebase";
 import {
   addDoc,
@@ -96,6 +96,16 @@ export default ({ children }: IProps) => {
     return await updateDoc(doc(db, "todos", id), updatedTodo);
   }
 
+  const [isDesktop, setIsDesktop] = useState(
+    global.innerWidth >= 1024 ? true : false
+  );
+
+  useEffect(() => {
+    global.addEventListener("resize", () => {
+      global.innerWidth >= 1024 ? setIsDesktop(true) : setIsDesktop(false);
+    });
+  }, []);
+
   const value = {
     currentCategory,
     setCurrentCategory,
@@ -107,6 +117,8 @@ export default ({ children }: IProps) => {
     getTodos,
     updateTodo,
     deleteTodo,
+    isDesktop,
+    setIsDesktop,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

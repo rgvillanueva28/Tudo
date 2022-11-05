@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        run: |
+      - run: |
           if [ -e yarn.lock ]; then
           yarn install --frozen-lockfile && yarn build
           elif [ -e package-lock.json ]; then

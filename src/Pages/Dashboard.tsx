@@ -8,18 +8,12 @@ import Footer from "../Components/Footer";
 import NewTodoModal from "../Components/NewTodoModal";
 
 export default function Dashboard() {
-  const { currentCategory, getTodos, todoItems } = useContext(AppContext);
+  const { currentCategory, getTodos, todoItems, isDesktop, setIsDesktop } =
+    useContext(AppContext);
   const [showNewTodoModal, setShowNewTodoModal] = useState(false);
-
-  const [isLarge, setIsLarge] = useState(
-    global.innerWidth >= 1024 ? true : false
-  );
 
   useEffect(() => {
     getTodos();
-    global.addEventListener("resize", () => {
-      global.innerWidth >= 1024 ? setIsLarge(true) : setIsLarge(false);
-    });
   }, []);
 
   return (
@@ -35,8 +29,8 @@ export default function Dashboard() {
           <MdAddCircleOutline size={24} />
           &nbsp;Add new
         </button>
-        <div className="container mx-auto flex flex-col lg:flex-row justify-around text-center">
-          {!isLarge && currentCategory === "todo" && (
+        <div className="container mx-auto grid grid-cols-1 lg:grid-cols-3 justify-around text-center">
+          {!isDesktop && currentCategory === "todo" && (
             <CatContainer>
               <h1 className="text-3xl">Todo</h1>
               {todoItems
@@ -48,7 +42,7 @@ export default function Dashboard() {
                 })}
             </CatContainer>
           )}
-          {!isLarge && currentCategory === "inProgress" && (
+          {!isDesktop && currentCategory === "inProgress" && (
             <CatContainer>
               <h1 className="text-3xl">In progress</h1>
               {todoItems
@@ -60,7 +54,7 @@ export default function Dashboard() {
                 })}
             </CatContainer>
           )}
-          {!isLarge && currentCategory === "done" && (
+          {!isDesktop && currentCategory === "done" && (
             <CatContainer>
               <h1 className="text-3xl">Done</h1>
               {todoItems
@@ -72,7 +66,7 @@ export default function Dashboard() {
                 })}
             </CatContainer>
           )}
-          {isLarge && (
+          {isDesktop && (
             <>
               <CatContainer>
                 <h1 className="text-3xl">Todo</h1>
@@ -107,7 +101,7 @@ export default function Dashboard() {
             </>
           )}
         </div>
-        {!isLarge && <Footer />}
+        {!isDesktop && <Footer />}
       </div>
     </>
   );

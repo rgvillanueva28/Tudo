@@ -29,6 +29,11 @@ export default ({ children }: IProps) => {
     category: "todo",
   });
   const [todoItems, setTodoItems] = useState<Object[]>([]);
+  const [isDesktop, setIsDesktop] = useState(
+    global.innerWidth >= 1024 ? true : false
+  );
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [viewModalTodo, setViewModalTodo] = useState("");
 
   function clearNewTodo() {
     setNewTodo({
@@ -96,10 +101,6 @@ export default ({ children }: IProps) => {
     return await updateDoc(doc(db, "todos", id), updatedTodo);
   }
 
-  const [isDesktop, setIsDesktop] = useState(
-    global.innerWidth >= 1024 ? true : false
-  );
-
   useEffect(() => {
     global.addEventListener("resize", () => {
       global.innerWidth >= 1024 ? setIsDesktop(true) : setIsDesktop(false);
@@ -119,6 +120,10 @@ export default ({ children }: IProps) => {
     deleteTodo,
     isDesktop,
     setIsDesktop,
+    showViewModal,
+    setShowViewModal,
+    viewModalTodo,
+    setViewModalTodo,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

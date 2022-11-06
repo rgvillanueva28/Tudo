@@ -2,7 +2,7 @@ import { MdMenu, MdSearch } from "react-icons/md";
 
 export default function Header() {
   return (
-    <div className="fixed flex flex-row bg-brand-dark min-w-full">
+    <div className="fixed flex flex-row bg-brand-dark min-w-full z-[1]">
       <nav
         className="my-auto flex flex-row w-full text-white justify-between"
         style={{ height: "56px" }}

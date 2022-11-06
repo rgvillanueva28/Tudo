@@ -7,7 +7,7 @@ export default function Footer() {
   const { currentCategory, setCurrentCategory } = useContext(AppContext);
 
   return (
-    <div className="fixed bottom-0 flex flex-row bg-brand-dark min-w-full">
+    <div className="fixed bottom-0 flex flex-row bg-brand-dark min-w-full z-[1]">
       <nav
         className="my-auto flex flex-row w-full text-white justify-around"
         style={{ height: "56px" }}

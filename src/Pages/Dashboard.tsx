@@ -6,9 +6,10 @@ import CatContainer from "../Components/CategoryContainer";
 import TodoCard from "../Components/TodoCard";
 import Footer from "../Components/Footer";
 import NewTodoModal from "../Components/NewTodoModal";
+import ViewTodoModal from "../Components/ViewTodoModal";
 
 export default function Dashboard() {
-  const { currentCategory, getTodos, todoItems, isDesktop } =
+  const { currentCategory, getTodos, todoItems, isDesktop, showViewModal } =
     useContext(AppContext);
   const [showNewTodoModal, setShowNewTodoModal] = useState(false);
 
@@ -21,6 +22,7 @@ export default function Dashboard() {
       {showNewTodoModal && (
         <NewTodoModal setShowNewTodoModal={setShowNewTodoModal} />
       )}
+      {showViewModal && <ViewTodoModal />}
       <div className="flex flex-col flex-1">
         <button
           className="text-white transition-all duration-200 flex flex-row rounded-lg bg-brand-main hover:bg-accent-dark px-3 py-2 mx-auto mt-5"

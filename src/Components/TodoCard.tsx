@@ -1,138 +1,48 @@
-import React, { useContext, useState } from "react";
-import {
-  MdKeyboardArrowRight,
-  MdKeyboardArrowLeft,
-  MdClear,
-  MdModeEdit,
-  MdAlarmAdd,
-  MdAlarmOn,
-  MdAlarm,
-} from "react-icons/md";
+import { useContext } from "react";
+import { MdAlarmAdd, MdAlarmOn, MdAlarm } from "react-icons/md";
 import { DateTime } from "luxon";
-
-import DeleteTodoModal from "../Components/DeleteTodoModal";
-import EditTodoModal from "../Components/EditTodoModal";
 import { AppContext } from "../Context/AppContext";
+import { ITodo } from "../@types/app";
+import ViewTodoModal from "./ViewTodoModal";
 
-interface toDoCardProps {
-  todoItem: any;
-}
-
-export default function TodoCard({ todoItem }: toDoCardProps) {
-  const { updateTodo } = useContext(AppContext);
-
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-
-  const handleCatClick = async (e: any) => {
-    let category = "";
-
-    if (e.currentTarget.id === "next") {
-      category =
-        (await todoItem.category) === "todo"
-          ? "inProgress"
-          : todoItem.category === "inProgress"
-          ? "done"
-          : "";
-    } else {
-      category =
-        (await todoItem.category) === "done"
-          ? "inProgress"
-          : todoItem.category === "inProgress"
-          ? "todo"
-          : "";
-    }
-
-    console.log({ todoItem, category });
-
-    await updateTodo(todoItem.id, { ...todoItem, category: category })
-      .then(() => {
-        console.log("Updated");
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
-  };
-
+export default function TodoCard({ todoItem }: any) {
+  const { setShowViewModal, setViewModalTodo } = useContext(AppContext);
   const styles = {
     bgColor:
       todoItem.category === "todo"
-        ? "bg-brand-dark"
+        ? "bg-yellow-200"
         : todoItem.category === "inProgress"
-        ? "bg-brand-main"
-        : "bg-success",
-    nextBtnColor:
-      todoItem.category === "todo"
-        ? "bg-brand-main"
-        : todoItem.category === "inProgress"
-        ? "bg-success"
-        : "hidden",
-    backBtnColor:
-      todoItem.category === "todo"
-        ? "hidden"
-        : todoItem.category === "inProgress"
-        ? "bg-brand-dark"
-        : "bg-brand-main",
+        ? "bg-blue-200"
+        : "bg-green-200",
   };
+
+  function handleViewTodo() {
+    setShowViewModal(true);
+    setViewModalTodo(todoItem);
+  }
 
   return (
     <>
-      {showDeleteModal && (
-        <DeleteTodoModal
-          setShowDeleteModal={setShowDeleteModal}
-          title={todoItem.title}
-          id={todoItem.id}
-        />
-      )}
-      {showEditModal && (
-        <EditTodoModal
-          setShowEditModal={setShowEditModal}
-          todoItem={todoItem}
-        />
-      )}
       <div
         className={
-          "transition-all flex flex-col w-100 my-2 rounded-lg text-left p-3 text-white " +
+          "transition-all flex flex-col w-100 my-2 rounded-md text-left p-3 text-white hover:scale-105 hover:cursor-pointer " +
           styles.bgColor
         }
+        onClick={handleViewTodo}
       >
-        <h2 className="text-xl font-bold text-left w-full">{todoItem.title}</h2>
-        <div className="flex flex-row space-x-5 h-8">
-          <button
-            className="bg-green-400 rounded-lg w-20 "
-            onClick={() => setShowEditModal(true)}
-          >
-            <MdModeEdit className="mx-auto" size={24} />
-          </button>
-          <button
-            className="bg-danger rounded-lg w-20 "
-            onClick={() => setShowDeleteModal(true)}
-          >
-            <MdClear className="mx-auto" size={24} />
-          </button>
-          <button
-            id="back"
-            className={"bg-brand-main rounded-lg w-20  " + styles.backBtnColor}
-            onClick={handleCatClick}
-          >
-            <MdKeyboardArrowLeft className="mx-auto" size={24} />
-          </button>
-          <button
-            id="next"
-            className={"bg-brand-main rounded-lg w-20  " + styles.nextBtnColor}
-            onClick={handleCatClick}
-          >
-            <MdKeyboardArrowRight className="mx-auto" size={24} />
-          </button>
-        </div>
-        <div
-          className={"flex flex-col font-semibold text-sm text-gray-200"}
-        >
+        <h2 className="text-xl font-bold text-left w-full text-gray-600">
+          {todoItem.title}
+        </h2>
+        <p className="text-base text-justify text-gray-500 font-semibold">
+          {todoItem.description}
+        </p>
+        <div className={"flex flex-col text-sm text-gray-400"}>
           <span className="flex flex-row items-center" title="Created on">
             <MdAlarmAdd />
-            {DateTime.fromSeconds(todoItem.dateCreated.seconds).toFormat(
-              "EEE, LLL dd kkkk hh:mm a"
-            )}
+            {todoItem.dateCreated.seconds &&
+              DateTime.fromSeconds(todoItem.dateCreated.seconds).toFormat(
+                "EEE, LLL dd kkkk hh:mm a"
+              )}
           </span>
           <span className="flex flex-row items-center" title="To do on">
             <MdAlarmOn />
@@ -140,14 +50,13 @@ export default function TodoCard({ todoItem }: toDoCardProps) {
               "EEE, LLL dd kkkk hh:mm a"
             )}
           </span>
-          <span className="flex flex-row items-center" title="Due on">
+          <span className="flex flex-row items-center " title="Due on">
             <MdAlarm />
             {DateTime.fromSeconds(todoItem.dateFinished.seconds).toFormat(
               "EEE, LLL dd kkkk hh:mm a"
             )}
           </span>
         </div>
-        <p className="text-base text-justify">{todoItem.description}</p>
       </div>
     </>
   );

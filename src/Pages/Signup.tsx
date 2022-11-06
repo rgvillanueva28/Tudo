@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Landing from "../Components/Landing";
 import { AuthContext } from "../Context/AuthContext";
 
 export default function Signup() {
@@ -42,9 +43,8 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex flex-col flex-1">
-      <div className="mx-auto my-auto shadow-2xl flex flex-col rounded-3xl  p-5 lg:p-10">
-        <h1 className="text-5xl font-bold text-center mb-5">TUDO</h1>
+    <Landing>
+      <div className="mx-auto my-auto shadow-2xl flex flex-col rounded-3xl  p-5 lg:p-10 bg-white">
         <h2 className="text-3xl font-bold text-center mb-5">Sign up</h2>
         <form className="flex flex-col lg:w-96" onSubmit={handleSubmit}>
           {message ? (
@@ -117,6 +117,6 @@ export default function Signup() {
           </Link>
         </p>
       </div>
-    </div>
+    </Landing>
   );
 }

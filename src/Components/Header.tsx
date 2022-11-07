@@ -1,6 +1,9 @@
-import { MdMenu, MdSearch } from "react-icons/md";
+import { useContext } from "react";
+import { MdMenu, MdSearch, MdLogout } from "react-icons/md";
+import { AuthContext } from "../Context/AuthContext";
 
 export default function Header() {
+  const { logout } = useContext(AuthContext);
   return (
     <div className="fixed flex flex-row bg-brand-dark min-w-full z-[1]">
       <nav
@@ -18,6 +21,9 @@ export default function Header() {
         </div>
         <div className="my-auto flex flex-row">
           <MdSearch size={24} style={{ margin: "16px" }} />
+          <button title="logout" onClick={() => logout()}>
+            <MdLogout size={24} style={{ margin: "16px" }} />
+          </button>
         </div>
       </nav>
     </div>

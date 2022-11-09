@@ -10,6 +10,7 @@ import Login from "./Pages/Login";
 import PrivateRoute from "./HOCs/PrivateRoute";
 import AuthenticatedRoute from "./HOCs/AuthenticatedRoute";
 import { AuthContext } from "./Context/AuthContext";
+import NavDrawer from "./Components/NavDrawer";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -26,6 +27,7 @@ function App() {
           }
           className="flex flex-1"
         >
+          <NavDrawer />
           <Routes>
             <Route
               path="/login"

@@ -34,6 +34,7 @@ export default ({ children }: IProps) => {
   );
   const [showViewModal, setShowViewModal] = useState(false);
   const [viewModalTodo, setViewModalTodo] = useState("");
+  const [showNavDrawer, setShowNavDrawer] = useState(false);
 
   function clearNewTodo() {
     setNewTodo({
@@ -128,6 +129,8 @@ export default ({ children }: IProps) => {
     setShowViewModal,
     viewModalTodo,
     setViewModalTodo,
+    showNavDrawer,
+    setShowNavDrawer,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

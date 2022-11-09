@@ -1,17 +1,22 @@
 import { useContext } from "react";
-import { MdMenu, MdSearch, MdLogout } from "react-icons/md";
-import { AuthContext } from "../Context/AuthContext";
+import { MdMenu, MdSearch } from "react-icons/md";
+import { AppContext } from "../Context/AppContext";
 
 export default function Header() {
-  const { logout } = useContext(AuthContext);
+  const { showNavDrawer, setShowNavDrawer } = useContext(AppContext);
   return (
-    <div className="fixed flex flex-row bg-brand-dark min-w-full z-[1]">
+    <div className="fixed flex flex-row bg-brand-dark min-w-full z-[50]">
       <nav
         className="my-auto flex flex-row w-full text-white justify-between"
         style={{ height: "56px" }}
       >
         <div className="my-auto flex flex-row">
-          <MdMenu size={24} style={{ margin: "16px" }} />
+          <button
+            title="logout"
+            onClick={() => setShowNavDrawer(!showNavDrawer)}
+          >
+            <MdMenu size={24} style={{ margin: "16px" }} />
+          </button>
           <span
             style={{ margin: "auto 16px auto 16px" }}
             className="text-xl my-auto"
@@ -21,9 +26,6 @@ export default function Header() {
         </div>
         <div className="my-auto flex flex-row">
           <MdSearch size={24} style={{ margin: "16px" }} />
-          <button title="logout" onClick={() => logout()}>
-            <MdLogout size={24} style={{ margin: "16px" }} />
-          </button>
         </div>
       </nav>
     </div>

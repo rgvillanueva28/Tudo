@@ -77,6 +77,10 @@ export default function Login() {
             Sign up
           </Link>
         </p>
+        <small className="mt-2">
+          Just testing the app? Use <strong>test@test.com</strong> for email and{" "}
+          <strong>test_123</strong> for password
+        </small>
       </div>
     </Landing>
   );

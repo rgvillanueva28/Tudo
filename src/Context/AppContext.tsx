@@ -107,6 +107,10 @@ export default ({ children }: IProps) => {
     });
   }, []);
 
+  useEffect(() => {
+    setTodoItems([]);
+  }, [currentUser]);
+
   const value = {
     currentCategory,
     setCurrentCategory,

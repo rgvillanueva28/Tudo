@@ -8,7 +8,7 @@ export default function DeleteTodoModal({
   title,
   id,
 }: any) {
-  const { deleteTodo } = useContext(AppContext);
+  const { deleteTodo, setShowViewModal } = useContext(AppContext);
   const ref = useOnclickOutside(() => {
     setShowDeleteModal(false);
   });
@@ -29,25 +29,25 @@ export default function DeleteTodoModal({
     setLoading(false);
 
     setShowDeleteModal(false);
+    setShowViewModal(false)
   };
 
   return (
     <>
       <div
-        className="absolute top-0 left-0 w-full h-screen flex justify-center z-0"
-        style={{ backgroundColor: "rgba(0,0,0,0.75)" }}
+        className="absolute top-0 left-0 w-full h-screen flex justify-center z-[4]"
       >
         <div
           ref={ref}
           className="relative mx-auto my-auto text-center p-5 lg:p-10 rounded shadow-lg bg-white w-11/12 lg:w-1/2"
         >
-          <button
+          {/* <button
             disabled={loading}
             onClick={() => setShowDeleteModal(false)}
             className="transition duration-200 absolute top-5 right-5 bg-danger hover:bg-red-400 text-white rounded-full p-1"
           >
             <MdClose size={24} />
-          </button>
+          </button> */}
           <form className="flex flex-col text-left" onSubmit={handleSubmit}>
             <h1 className="text-xl mb-5 font-bold text-center">
               Delete {title}

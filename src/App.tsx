@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Header from "./Components/Header";
@@ -9,17 +9,21 @@ import Login from "./Pages/Login";
 
 import PrivateRoute from "./HOCs/PrivateRoute";
 import AuthenticatedRoute from "./HOCs/AuthenticatedRoute";
+import { AuthContext } from "./Context/AuthContext";
 
 function App() {
+  const { currentUser } = useContext(AuthContext);
   return (
     <Router>
       <div className="min-h-screen relative flex flex-col">
-        <Header />
+        {currentUser && <Header />}
         <div
-          style={{
-            paddingTop: "56px",
-            paddingBottom: "56px",
-          }}
+          style={
+            currentUser && {
+              paddingTop: "56px",
+              paddingBottom: "56px",
+            }
+          }
           className="flex flex-1"
         >
           <Routes>

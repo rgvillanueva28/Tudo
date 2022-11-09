@@ -47,8 +47,7 @@ export default function EditTodoModal({ setShowEditModal, todoItem }: any) {
   return (
     <>
       <div
-        className="absolute top-0 left-0 w-full h-screen flex justify-center z-0"
-        style={{ backgroundColor: "rgba(0,0,0,0.75)" }}
+        className="absolute top-0 left-0 w-full h-screen flex justify-center z-[4]"
       >
         <div
           ref={ref}
